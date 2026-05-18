@@ -12,9 +12,9 @@ import org.openqa.selenium.TimeoutException;
 
 
 class PageBase {
+
     protected WebDriver driver;
     protected WebDriverWait wait;
-    
     
     public PageBase(WebDriver driver) {
         this.driver = driver;
@@ -30,7 +30,7 @@ class PageBase {
         this.wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         return this.driver.findElement(locator);
     }
-    
+
     protected WebElement waitAndReturnHiddenElement(By by) {
         return this.wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }

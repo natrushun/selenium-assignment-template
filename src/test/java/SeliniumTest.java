@@ -20,7 +20,6 @@ import java.util.*;
 import java.net.URL;
 import java.net.MalformedURLException;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import java.util.Random;
 import java.io.File;
 
@@ -37,13 +36,12 @@ public class SeliniumTest {
     // login_form_test
     @Test
     public void testLogin() {
-        // login
+
         LoginPage loginPage = new LoginPage(this.driver);
         loginPage.login("uci.edu.test@proton.me", "uci.edu.test");
 
         MainPage mainPage = new MainPage(this.driver);
         Assert.assertTrue(mainPage.isLoggedIn());
-        
     }
 
     // test_dependencies
@@ -61,7 +59,6 @@ public class SeliniumTest {
         PageBase page=mainPage.logout();
         Assert.assertFalse(page.isLoggedIn());  
     }
-
 
     // static_page_test
     @Test
@@ -104,12 +101,14 @@ public class SeliniumTest {
         Assert.assertTrue(title.contains("UCI Machine Learning Repository"));
     }
     
-    @Test
+    // form_with_user
+    // file_upload
+    @Test (dependsOnMethods = {"testLogin"})
     public void testFormAndFileUpload() {
         // login
         LoginPage loginPage = new LoginPage(this.driver);
         loginPage.login("uci.edu.test@proton.me", "uci.edu.test");
-
+        // fill form and upload file
         FormsPage formsPage = new FormsPage(this.driver);
         formsPage.fillForm(
             RandomTestData.randomDatasetName(), 
@@ -118,52 +117,41 @@ public class SeliniumTest {
             RandomTestData.randomFeatures()
         );
         formsPage.uploadFile(new File("src/test/resources/test.png").getAbsolutePath());
-        Assert.assertTrue(formsPage.getBodyText().contains("test.png"));
-        PageBase page = formsPage.submitForm();
-        
-        Assert.assertTrue(page.getBodyText().contains("Introductory Paper"));
 
+        // verify file upload
+        Assert.assertTrue(formsPage.getBodyText().contains("test.png"));
+
+        // submit form and verify next page
+        PageBase page = formsPage.submitForm();
+        Assert.assertTrue(page.getBodyText().contains("Introductory Paper"));
     }
 
-
+    // download_file
     @Test
     public void testDownLoad(){
         DownloadPage downloadPage = new DownloadPage(this.driver);
+        
         try {
             downloadPage.downloadFile();
             File file = new File("/home/selenium/tests/task3/tmp/iris.zip");
             Assert.assertTrue(file.exists());
             Assert.assertTrue( file.length() > 0);
 
+            // Clean up
             file.delete();
 
         } catch (Exception e) {
-            Assert.fail("Letöltés sikertelen: " + e.getMessage());
+            Assert.fail("Download failed: " + e.getMessage());
         }
-    }
-    
-    /*@Test
-    public void testSearch() {
-        MainPage mainPage = new MainPage(this.driver);
-        Assert.assertTrue(mainPage.getFooterText().contains("Eötvös Loránd University"));
-
-        SearchResultPage searchResultPage = mainPage.search("Student guide 2025");
-        String bodyText = searchResultPage.getBodyText();
-        Assert.assertTrue(bodyText.contains("Searched content"));
-        Assert.assertTrue(bodyText.contains("Student guide 2025/26"));
     }
 
     @Test
-    public void testSearch2() {
-        String[] searchQueries={"something","asd","xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"};
-        for(String searchQuery : searchQueries) {
-            MainPage mainPage = new MainPage(this.driver);
-            SearchResultPage searchResultPage = mainPage.search(searchQuery);
-            String bodyText = searchResultPage.getBodyText();
-            Assert.assertTrue(bodyText.contains("Searched content"));
-        } */
+    public void testMouseHover() {
+        MainPage mainPage = new MainPage(this.driver);
+        mainPage.mouseHover();
+        Assert.assertTrue(mainPage.getBodyText().contains("Donate New"));
+    }
     
-
     @AfterMethod
     public void close() {
         if (driver != null) {
