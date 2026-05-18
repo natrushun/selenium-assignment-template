@@ -35,10 +35,10 @@ class FormsPage extends PageBase {
         //intisal pause to ensure page is fully loaded before interacting with elements
         sleep(2000);
 
-        waitAndReturnElement(datasetNameBy).sendKeys(datasetName);
-        waitAndReturnElement(abstractBy).sendKeys(abstractText);
-        waitAndReturnElement(rowsBy).sendKeys(String.valueOf(rows));
-        waitAndReturnElement(featuresBy).sendKeys(String.valueOf(features));
+        sendKeysWithPause(datasetNameBy, datasetName);
+        sendKeysWithPause(abstractBy, abstractText);
+        sendKeysWithPause(rowsBy, String.valueOf(rows));
+        sendKeysWithPause(featuresBy, String.valueOf(features));
         jsClick(characteristicsBy);
         jsClick(areaBy);
         jsClick(taskBy);

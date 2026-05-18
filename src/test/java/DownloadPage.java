@@ -23,9 +23,10 @@ class DownloadPage extends PageBase {
         .map(c -> c.getName() + "=" + c.getValue())
         .collect(Collectors.joining("; "));
 
+        String projectRoot = System.getProperty("user.dir");
 
         ProcessBuilder pb = new ProcessBuilder(
-            "curl", "-L", "-o", "/home/selenium/tests/task3/tmp/iris.zip",
+            "curl", "-L", "-o", projectRoot + "/src/test/resources/iris.zip",
             "-b", cookies, url
         );
         Process process = pb.start();
@@ -35,7 +36,5 @@ class DownloadPage extends PageBase {
             throw new Exception("curl failed, exit code: " + exitCode);
         }
     }
-
-
 
 }

@@ -124,7 +124,8 @@ public class SeliniumTest {
         DownloadPage downloadPage = new DownloadPage(this.driver);
         try {
             downloadPage.downloadFile();
-            File file = new File("/home/selenium/tests/task3/tmp/iris.zip");
+            String projectRoot = System.getProperty("user.dir");
+            File file = new File(projectRoot + "/src/test/resources/iris.zip");
             Assert.assertTrue(file.exists());
             Assert.assertTrue( file.length() > 0);
 
