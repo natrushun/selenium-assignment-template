@@ -1,8 +1,5 @@
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -25,7 +22,6 @@ class PageBase {
         this.driver.get(url);
     }
 
-    
     protected WebElement waitAndReturnElement(By locator) {
         this.wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         return this.driver.findElement(locator);
@@ -53,9 +49,6 @@ class PageBase {
             return false;
         }
     }
-    public void setPageZoom(int zoomPercentage) {
-        ((JavascriptExecutor) driver).executeScript("document.body.style.zoom='" + zoomPercentage + "%'");
-    }
 
     public PageBase logout() {
         By profileButtonBy = By.xpath("//div[@aria-label='Account actions']");
@@ -64,8 +57,5 @@ class PageBase {
         this.waitAndReturnElement(logoutButtonBy).click();
         return this;
     }
-
-    
-
    
 }

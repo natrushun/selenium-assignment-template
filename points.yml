@@ -20,10 +20,14 @@ student:
 # ----------------------------------------------------------
 ai_usage:
   used: false
-  tools: ""           # e.g. "Claude, GitHub Copilot"
-  description: ""     # e.g. "Used Claude to generate initial Page Object 
-                       #  classes, then modified them manually. Used Copilot 
-                       #  for autocomplete while writing test methods."
+  tools: "Claude, GitHub Copilot"           # e.g. "Claude, GitHub Copilot"
+  description: "Used Copilot for autocomplete while writing test methods.
+                Used Claude to keep the code organized and maintainable.
+                Claude helped in:
+                - Processbuilder usage 
+                - File upload test
+                - Debuging FormPage test method
+                - Suggesting RandomStringUtils for random data generation"
                        
 # ----------------------------------------------------------
 # Quality requirements (gatekeepers)
@@ -45,7 +49,7 @@ quality:
     description: "Function and method names describe what they do, test suite reads like a test description"
 
   low_redundancy:            # required for grade 5
-    done: false
+    done: true
     description: "Minimal code duplication, shared logic is extracted into reusable methods"
 
 # ----------------------------------------------------------

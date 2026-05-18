@@ -3,24 +3,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.AfterMethod;
 import org.testng.Assert;
 
-
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import java.util.*;  
-
 import java.net.URL;
 import java.net.MalformedURLException;
-
-import java.util.Random;
 import java.io.File;
 
 public class SeliniumTest {
@@ -72,6 +61,7 @@ public class SeliniumTest {
     // multiple_page_test
     @Test
     public void multiple_page_test(){
+
         PageBase page = new PageBase(this.driver);
         // Define a map of URLs and their expected titles
         Map<String, String> pageExpectedTitles = new LinkedHashMap<>();
@@ -91,8 +81,8 @@ public class SeliniumTest {
         
             Assert.assertTrue(body.contains(expectedText));
         }
-
     }
+
     // page_title
     @Test
     public void testPageTitle() {
@@ -110,11 +100,13 @@ public class SeliniumTest {
         loginPage.login("uci.edu.test@proton.me", "uci.edu.test");
         // fill form and upload file
         FormsPage formsPage = new FormsPage(this.driver);
+
+        // fill form uses thread sleep
         formsPage.fillForm(
             RandomTestData.randomDatasetName(), 
             RandomTestData.randomAbstract(), 
-            RandomTestData.randomRows(), 
-            RandomTestData.randomFeatures()
+            RandomTestData.randomNumber(50), 
+            RandomTestData.randomNumber(10)
         );
         formsPage.uploadFile(new File("src/test/resources/test.png").getAbsolutePath());
 
@@ -130,7 +122,6 @@ public class SeliniumTest {
     @Test
     public void testDownLoad(){
         DownloadPage downloadPage = new DownloadPage(this.driver);
-        
         try {
             downloadPage.downloadFile();
             File file = new File("/home/selenium/tests/task3/tmp/iris.zip");

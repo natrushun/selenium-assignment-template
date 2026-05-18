@@ -13,11 +13,8 @@ public class RandomTestData {
         return RandomStringUtils.randomAlphabetic(50);
     }
 
-    public static int randomRows() {
-        return random.nextInt(50) + 1;
+    public static int randomNumber(int max) {
+        return random.nextInt(max) + 1;
     }
 
-    public static int randomFeatures() {
-        return random.nextInt(50) + 1; 
-    }
 }

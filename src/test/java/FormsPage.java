@@ -1,14 +1,10 @@
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
 
 
 class FormsPage extends PageBase {
@@ -31,25 +27,22 @@ class FormsPage extends PageBase {
         this.driver.get("https://archive.ics.uci.edu/contribute/donation/metadata");
     }    
     
+
+    /* A short sleep is added after each field without the delay, some fields are occasionally
+       skipped due to an unknown timing issue.
+    */
     public void fillForm(String datasetName, String abstractText, int rows, int features) {
-        
+        //intisal pause to ensure page is fully loaded before interacting with elements
         sleep(2000);
-        this.waitAndReturnElement(datasetNameBy).sendKeys(datasetName);
-        sleep(1000);
-        this.waitAndReturnElement(abstractBy).sendKeys(abstractText);
-        sleep(1000);
-        this.waitAndReturnElement(rowsBy).sendKeys(String.valueOf(rows));
-        sleep(1000);
-        this.waitAndReturnElement(featuresBy).sendKeys(String.valueOf(features));
-        sleep(1000);
+
+        waitAndReturnElement(datasetNameBy).sendKeys(datasetName);
+        waitAndReturnElement(abstractBy).sendKeys(abstractText);
+        waitAndReturnElement(rowsBy).sendKeys(String.valueOf(rows));
+        waitAndReturnElement(featuresBy).sendKeys(String.valueOf(features));
         jsClick(characteristicsBy);
-        sleep(1000);
         jsClick(areaBy);
-        sleep(1000);
         jsClick(taskBy);
-        sleep(1000);
         jsClick(typeBy);
-        sleep(1000);
         
     }
     public void uploadFile(String filePath) {
@@ -64,10 +57,17 @@ class FormsPage extends PageBase {
     }
 
     private void jsClick(By by) {
+        sleep(1000);
         WebElement element = this.waitAndReturnElement(by);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
     }
+
+    private void sendKeysWithPause(By by, String text) {
+        sleep(1000);
+        waitAndReturnElement(by).sendKeys(text);
+    }
+ 
     private void sleep(int ms) {
     try {
         Thread.sleep(ms);
